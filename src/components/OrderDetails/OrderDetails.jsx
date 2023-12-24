@@ -7,30 +7,32 @@ import { CustomizedCard } from "./Card/CustomizedCard";
 import { ModeOfPayment } from "./ModeOfPayment/ModeOfPayment";
 import { PricingSummary } from "./PricingSummary/PricingSummary";
 import { CustomizedButton } from "../Button/Button";
-import { Box } from "@mui/material";
+import { Alert, Box } from "@mui/material";
 import TrackOrderDrawer from "../TrackOrderDrawer/TrackOrderDrawer";
 
 export const OrderDetails = () => {
   const { orderId } = useParams();
   const [orderDetails, setOrderDetails] = useState(null);
   const [showTrackingDetails, setShowTrackingDetails] = useState(false);
+  const [notFound, setNotFound] = useState(false);
+
   const location = useLocation();
 
   const redirectToMaps = (srclat, srclng, dstlat, dstlng) => {
-    console.log(srclat, srclng, dstlat, dstlng)
     const url = `https://google.com/maps/dir/?api=1&map_action=map&origin=${srclat},${srclng}&destination=${dstlat},${dstlng}`;
-    console.log(url)
-    window.open(
-      url,
-      "_blank",
-      "noreferrer"
-    );
+    console.log(url);
+    window.open(url, "_blank", "noreferrer");
   };
 
   useEffect(() => {
     if (orderId) {
       const currentOrderDetails = getOrderDetails(orderId);
-      setOrderDetails(currentOrderDetails);
+      if (currentOrderDetails) {
+        setOrderDetails(currentOrderDetails);
+        setNotFound(false);
+      } else {
+        setNotFound(true);
+      }
     }
   }, [orderId]);
 
@@ -91,6 +93,12 @@ export const OrderDetails = () => {
           />
         </>
       )}
+      {
+        notFound &&
+        <Alert variant="outlined" severity="warning">
+          Order with the given order id not found. Please try again.
+        </Alert>
+      }
     </>
   );
 };

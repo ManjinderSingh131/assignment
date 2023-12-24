@@ -2,14 +2,22 @@ import { useEffect, useState } from "react";
 import { TopHeader } from "../TopHeader/TopHeader";
 import { getOrders } from "./service/service";
 import { OrderCard } from "./OrderCard/OrderCard";
+import { Alert } from "@mui/material";
 
 export const Orders = () => {
   const [orders, setOrders] = useState([]);
+  const [notFound, setNotFound] = useState(false);
   useEffect(() => {
-    setOrders(getOrders());
+    const ordersResponse = getOrders();
+    if (ordersResponse) {
+      setOrders(getOrders());
+      setNotFound(false);
+    } else {
+      setNotFound(true);
+    }
   }, []);
 
-  const getOrderCards = (orders) => {
+  const OrdersCards = ({ orders }) => {
     return (
       orders.length &&
       orders.map((order) => (
@@ -25,7 +33,12 @@ export const Orders = () => {
   return (
     <>
       <TopHeader pageHeader={"My Orders"} />
-      {getOrderCards(orders)}
+      {orders.length !== 0 && <OrdersCards orders={orders} />}
+      {notFound && (
+        <Alert severity="warning" variant="outlined">
+          No orders found.
+        </Alert>
+      )}
     </>
   );
 };
