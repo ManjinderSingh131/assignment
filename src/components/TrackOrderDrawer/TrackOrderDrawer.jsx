@@ -46,18 +46,19 @@ export const OrderIdShipperCard = ({ orderId, shipper, setOpenDrawer }) => {
       </Grid>
       <CustomizedCard>
         <Grid container pb={5}>
-          <Grid item xs={2}>
+          <Grid item xs={1}>
             <Box
-              p={2}
+              p={1}
+              mt={1}
               bgcolor={"#fef3fe"}
               borderRadius={"3rem"}
-              height={25}
-              width={25}
+              height={18}
+              width={18}
             >
-              <Inventory2 color="primary" />
+              <Inventory2 fontSize="small" color="primary" />
             </Box>
           </Grid>
-          <Grid item xs={10}>
+          <Grid item xs={11}>
             <Box display={"flex"} flexDirection={"column"} pl={3}>
               <OrderIdShipperCardRow label={"Order ID"} value={orderId} />
               <OrderIdShipperCardRow label={"Shipper"} value={shipper} />
@@ -100,7 +101,7 @@ export default function TrackOrderDrawer({
             setOpenDrawer={setOpenDrawer}
           />
           <CustomizedCard scrollable={true} p={0.3} my={1}>
-            <StatusTimeline status={status} />
+            <StatusTimeline status={status} shipper={shipper}/>
           </CustomizedCard>
         </Drawer>
       </React.Fragment>

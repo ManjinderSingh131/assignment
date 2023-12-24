@@ -59,11 +59,11 @@ const CustomTimelineItem = ({ isCompleted, name, isLast, icon }) => {
   );
 };
 
-export default function StatusTimeline({ status }) {
+export default function StatusTimeline({ status, shipper }) {
   const [currentSteps, setCurrentSteps] = React.useState([]);
   React.useEffect(() => {
     if (status) {
-      setCurrentSteps(getSteps(status));
+      setCurrentSteps(getSteps(status, shipper));
     }
   }, [status]);
   return (

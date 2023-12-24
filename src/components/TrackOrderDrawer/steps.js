@@ -38,10 +38,10 @@ export const steps = [
   {
     name: "Delivered",
     icon: <>🎉</>,
-  }
+  },
 ];
 
-export const getSteps = (currentStatus) => {
+export const getSteps = (currentStatus, shipper) => {
   const currentStepIndex = steps.findIndex(
     (step) => step.name.toLowerCase() === currentStatus.toLowerCase()
   );
@@ -51,8 +51,11 @@ export const getSteps = (currentStatus) => {
     } else {
       step.isCompleted = false;
     }
-    if(index === steps.length - 1) {
-      step.isLast = true
+    if (index === steps.length - 1) {
+      step.isLast = true;
+    }
+    if (shipper) {
+      step.name = step.name.replaceAll("Shipper", shipper);
     }
     return step;
   });
